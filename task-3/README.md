@@ -1,17 +1,17 @@
-# Task 3: React-Redux Posts App
+# Task 3: Ứng dụng React-Redux hiển thị bài viết
 
-A small React + Redux Toolkit application that fetches posts from
-`https://jsonplaceholder.typicode.com/posts`, displays them, and lets the
-user add new posts through a `PostForm` component.
+Một ứng dụng nhỏ dùng React + Redux Toolkit để lấy danh sách bài viết từ
+`https://jsonplaceholder.typicode.com/posts`, hiển thị ra giao diện,
+và cho phép người dùng thêm bài viết mới qua thành phần `PostForm`.
 
-## Stack
+## Công nghệ
 
-- **React 18** with hooks and ES6+
-- **Redux Toolkit** (`createSlice`, `createAsyncThunk`) for state + API calls
-- **react-redux** for `<Provider>` and hooks (`useDispatch`, `useSelector`)
-- **Vite** as the dev server / bundler
+- **React 18** với hooks và cú pháp ES6+
+- **Redux Toolkit** (`createSlice`, `createAsyncThunk`) quản lý state + gọi API
+- **react-redux** cung cấp `<Provider>` và hooks (`useDispatch`, `useSelector`)
+- **Vite** làm dev server / bundler
 
-## Project structure
+## Cấu trúc thư mục
 
 ```
 task-3/
@@ -19,16 +19,16 @@ task-3/
 ├── package.json
 ├── vite.config.js
 └── src/
-    ├── main.jsx               # App entry, mounts <Provider store={store}>
+    ├── main.jsx               # Entry, gắn <Provider store={store}>
     ├── store.js               # configureStore
     ├── App.jsx
     ├── styles.css
     └── features/posts/
         ├── postsSlice.js      # state, reducers, async thunk
-        └── PostsView.jsx      # PostList + PostForm components
+        └── PostsView.jsx      # PostList + PostForm
 ```
 
-## State shape
+## State
 
 ```js
 {
@@ -40,26 +40,29 @@ task-3/
 }
 ```
 
-## How it works
+## Cách hoạt động
 
-- On mount, `PostsView` dispatches `fetchPosts()` — a `createAsyncThunk` that
-  performs `fetch(API_URL)` and returns the JSON array.
-- The `postsSlice` handles `pending` / `fulfilled` / `rejected` actions and
-  updates `status` and `items` accordingly.
-- `PostForm` dispatches the synchronous `postAdded` action. A `prepare`
-  callback generates a local `id` (the API is read-only) so the new post is
-  shown immediately at the top of the list.
-- Selectors (`selectAllPosts`, `selectPostsStatus`, `selectPostsError`) are
-  used by components via `useSelector`.
+- Khi trang load, `PostsView` gửi action `fetchPosts()` — một
+  `createAsyncThunk` thực hiện `fetch(API_URL)` và trả về mảng JSON.
+- `postsSlice` xử lý 3 trạng thái `pending` / `fulfilled` / `rejected`
+  để cập nhật `status`, `items` và `error`.
+- `PostForm` gửi action đồng bộ `postAdded`. Một hàm `prepare` tạo `id`
+  cục bộ (vì API jsonplaceholder là **read-only**, không thể POST thực sự),
+  nên bài viết mới chỉ hiện trong giao diện ngay lập tức.
+- Các selector (`selectAllPosts`, `selectPostsStatus`, `selectPostsError`)
+  được dùng trong component thông qua `useSelector`.
 
-## Run
+> **Lưu ý:** API jsonplaceholder không hỗ trợ ghi thực sự, nên các bài viết
+> mới chỉ được thêm vào state Redux cục bộ (optimistic update).
+
+## Chạy ứng dụng
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:5173.
+Mở trình duyệt tới http://localhost:5173.
 
 ## Build
 
